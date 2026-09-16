@@ -1,117 +1,79 @@
-async function boot() {
-  const mount = document.getElementById('mount');
-  try {
-    const [a, b1, b2] = await Promise.all([
-      fetch('./content-a.html').then(r => {
-        if (!r.ok) throw new Error('No se pudo cargar content-a.html');
-        return r.text();
-      }),
-      fetch('./content-b1.html').then(r => {
-        if (!r.ok) throw new Error('No se pudo cargar content-b1.html');
-        return r.text();
-      }),
-      fetch('./content-b2.html').then(r => {
-        if (!r.ok) throw new Error('No se pudo cargar content-b2.html');
-        return r.text();
-      })
-    ]);
-    mount.outerHTML = a + b1 + b2;
-  } catch (err) {
-    mount.innerHTML = '<div class="loading">No se pudo cargar la guía. Recargá la página.</div>';
-    console.error(err);
-    return;
+async function boot(){
+  const mount=document.getElementById('mount');
+  try{
+    const files=['content-a.html','content-b1.html','content-b2.html','content-b3.html'];
+    const chunks=await Promise.all(files.map(f=>fetch('./'+f).then(r=>{if(!r.ok)throw new Error(f);return r.text()})));
+    mount.innerHTML=chunks.join('\n');
+  }catch(e){
+    mount.innerHTML='<section class="hero"><h1>No se pudo cargar la guía</h1><p>Recargá la página.</p></section>';
+    console.error(e); return;
   }
 
-  if ('serviceWorker' in navigator) {
-    try {
-      const reg = await navigator.serviceWorker.register('./sw.js', {scope: './'});
-      await navigator.serviceWorker.ready;
-      console.log('Service Worker listo:', reg.scope);
-    } catch (err) {
-      console.warn('No se pudo registrar el Service Worker', err);
-    }
-  }
+  const sidebar=document.getElementById('sidebar');
+  const menuBtn=document.getElementById('menuBtn');
+  menuBtn.addEventListener('click',()=>sidebar.classList.toggle('open'));
+  document.querySelectorAll('#sidebar a').forEach(a=>a.addEventListener('click',()=>sidebar.classList.remove('open')));
 
-  let deferredInstallPrompt = null;
-  const installBtn = document.getElementById('installBtn');
-  const installFab = document.getElementById('installFab');
-  const installStatus = document.getElementById('installStatus');
-  const installOverlay = document.getElementById('installOverlay');
-  const closeInstallHelp = document.getElementById('closeInstallHelp');
-
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  }
-  function markInstalled(){
-    installBtn.textContent = '✓ App instalada';
-    installBtn.classList.add('installed');
-    installBtn.disabled = true;
-    installFab.classList.remove('show');
-    installStatus.textContent = 'Abierta en modo app';
-  }
-  function setInstallReady(){
-    if (isStandalone()) return markInstalled();
-    installBtn.textContent = '⬇ Instalar app';
-    installBtn.disabled = false;
-    installFab.classList.add('show');
-    installStatus.textContent = 'Tocá “Instalar app”';
-  }
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredInstallPrompt = e;
-    setInstallReady();
-  });
-  window.addEventListener('appinstalled', () => {
-    deferredInstallPrompt = null;
-    markInstalled();
+  const typeNav=document.getElementById('typeNav');
+  document.querySelectorAll('section.topic').forEach(sec=>{
+    const n=sec.querySelector('.type-num')?.textContent?.trim()||'•';
+    const title=sec.querySelector('h2')?.textContent?.trim()||'Tipo';
+    const a=document.createElement('a');
+    a.href='#'+sec.id;
+    a.innerHTML=`<span>${n}</span>${title}`;
+    a.addEventListener('click',()=>sidebar.classList.remove('open'));
+    typeNav.appendChild(a);
   });
 
-  async function installApp(){
-    if (isStandalone()) return markInstalled();
-    if (deferredInstallPrompt) {
-      deferredInstallPrompt.prompt();
-      try { await deferredInstallPrompt.userChoice; } catch (_) {}
-      deferredInstallPrompt = null;
-      return;
-    }
-    const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const help = document.getElementById('installHelp');
-    if (isiOS) {
-      help.innerHTML = 'En iPhone/iPad: tocá <b>Compartir</b> y después <b>Agregar a pantalla de inicio</b>.';
-    } else {
-      help.innerHTML = 'El instalador todavía no fue habilitado por el navegador. Esperá unos segundos y probá de nuevo. También podés abrir el menú del navegador y elegir <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.';
-    }
-    installOverlay.classList.add('open');
-  }
-
-  installBtn.addEventListener('click', installApp);
-  installFab.addEventListener('click', installApp);
-  closeInstallHelp.addEventListener('click', () => installOverlay.classList.remove('open'));
-  installOverlay.addEventListener('click', (e) => { if (e.target === installOverlay) installOverlay.classList.remove('open'); });
-
-  if (isStandalone()) markInstalled();
-  else {
-    installFab.classList.add('show');
-    installStatus.textContent = 'Preparando instalación…';
-  }
-
-  setTimeout(() => {
-    if (!deferredInstallPrompt && !isStandalone()) installStatus.textContent = 'Lista para instalar desde el navegador';
-  }, 2500);
-
-  const search = document.getElementById('search');
-  search.addEventListener('input', () => {
-    const q = search.value.trim().toLowerCase();
-    document.querySelectorAll('section.topic').forEach(sec => {
-      if (!q) { sec.classList.remove('hidden-by-search'); return; }
-      sec.classList.toggle('hidden-by-search', !sec.innerText.toLowerCase().includes(q));
+  const search=document.getElementById('search');
+  search.addEventListener('input',()=>{
+    const q=search.value.toLowerCase().trim();
+    document.querySelectorAll('.topic').forEach(s=>{
+      s.classList.toggle('hidden',q && !s.innerText.toLowerCase().includes(q));
     });
   });
 
-  if (window.MathJax && MathJax.typesetPromise) {
-    try { await MathJax.typesetPromise(); } catch (e) { console.warn(e); }
+  document.getElementById('topBtn').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+  let deferredPrompt=null;
+  const installBtn=document.getElementById('installBtn');
+  const installStatus=document.getElementById('installStatus');
+  const standalone=()=>window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+
+  function installedUI(){
+    installStatus.textContent='App instalada';
+    installBtn.textContent='✓ Instalada';
+    installBtn.disabled=true;
+    installBtn.classList.add('ready');
+  }
+  if(standalone()) installedUI();
+
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();
+    deferredPrompt=e;
+    installBtn.classList.add('ready');
+    installStatus.textContent='Lista para instalar';
+  });
+  installBtn.addEventListener('click',async()=>{
+    if(standalone()) return installedUI();
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const choice=await deferredPrompt.userChoice.catch(()=>null);
+      deferredPrompt=null;
+      if(choice?.outcome==='accepted') installedUI();
+    }else{
+      installStatus.textContent='Menú ⋮ → Instalar app';
+      alert('Si el navegador todavía no muestra el instalador, abrí el menú ⋮ y elegí “Instalar app” o “Agregar a pantalla principal”.');
+    }
+  });
+  window.addEventListener('appinstalled',installedUI);
+
+  if(window.MathJax?.typesetPromise){
+    try{await MathJax.typesetPromise();}catch(e){console.warn(e)}
   }
 }
 
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.warn));
+}
 boot();

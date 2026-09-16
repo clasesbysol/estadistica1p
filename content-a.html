@@ -1,0 +1,156 @@
+<div class="layout">
+<aside>
+  <div class="brand">Estadística Aplicada</div>
+  <p class="subtitle">Guía corregida de patrones de parcial</p>
+  <input id="search" type="search" placeholder="Buscar: Bayes, Poisson, TCL…" aria-label="Buscar en la guía">
+  <nav class="toc">
+    <a class="group" href="#inicio">Inicio y mapa</a>
+    <a href="#orientacion">Orientación rápida</a>
+    <a href="#mapa">Mapa de patrones</a>
+    <a class="group" href="#familia1">1. Condicional, total y Bayes</a>
+    <a class="group" href="#familia2">2. Discretas generales y ganancia</a>
+    <a class="group" href="#familia3">3. Densidad, FDA y cuantiles</a>
+    <a class="group" href="#familia4">4. Modelos discretos</a>
+    <a href="#binomial">4A. Binomial</a>
+    <a href="#hipergeometrica">4B. Hipergeométrica</a>
+    <a href="#poisson">4C. Poisson</a>
+    <a href="#geometrica">4D. Geométrica</a>
+    <a href="#encadenados">4E. Modelos encadenados</a>
+    <a class="group" href="#familia5">5. Modelos continuos</a>
+    <a href="#uniforme">5A. Uniforme</a>
+    <a href="#exponencial">5B. Exponencial</a>
+    <a href="#normal">5C. Normal</a>
+    <a class="group" href="#familia6">6. Teorema Central del Límite</a>
+    <a class="group" href="#familia7">7. Método de momentos e insesgadez</a>
+    <a class="group" href="#formulas">Hoja rápida de fórmulas</a>
+  </nav>
+</aside>
+<main>
+<div class="paper" id="content">
+  <div class="top-actions">
+    <button id="installBtn" type="button">⬇ Instalar app</button>
+    <span id="installStatus" class="install-status">Lista para instalar cuando el navegador lo permita</span>
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Abrir todo</button>
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Cerrar teoría</button>
+    <button onclick="window.print()">Imprimir / guardar PDF</button>
+  </div>
+
+  <section id="inicio" class="topic">
+    <div class="kicker">Guía de parcial · versión corregida</div>
+    <h1>Estadística Aplicada — reconocer el patrón antes de calcular</h1>
+    <p class="lead">Esta versión reorganiza el PDF recibido para que la unidad de estudio no sea solamente el <b>tema</b>, sino el <b>patrón de consigna</b>: qué señales aparecen, qué procedimiento corresponde, qué fórmula usar y qué error evitar.</p>
+    <div class="badges">
+      <span class="badge">Patrones de ejercicio</span><span class="badge">MathJax</span><span class="badge">R: d* vs p*</span><span class="badge">Resoluciones paso a paso</span><span class="badge">Responsive</span>
+    </div>
+    <div class="source-note"><b>Alcance de esta corrección:</b> el archivo fuente es un resumen de 11 páginas, no el PDF original con todos los parciales. Por eso se pueden corregir la matemática, la clasificación y el diseño, pero <b>no se puede reconstruir una frecuencia real de aparición por año</b> ni identificar año/número de ejercicio cuando el propio resumen no lo informa. No se inventan esos datos.</div>
+  </section>
+
+  <section id="orientacion" class="topic">
+    <h2>Orientación rápida: tres decisiones antes de empezar</h2>
+    <div class="grid">
+      <div class="card"><h4>1. ¿Discreta o continua?</h4><p><b>Discreta:</b> valores aislados/contables y probabilidades puntuales.</p><p><b>Continua:</b> intervalos y densidades; en un punto aislado la probabilidad es cero.</p></div>
+      <div class="card"><h4>2. ¿Puntual o acumulada?</h4><p><b>Puntual:</b> $P(X=k)$.</p><p><b>Acumulada:</b> $P(X\le x)$, “a lo sumo”, “como máximo”. Para colas derechas suele convenir el complemento.</p></div>
+      <div class="card"><h4>3. ¿Modelo dado o construido?</h4><p>Si la consigna nombra Binomial, Poisson, Normal, etc., usá sus parámetros. Si da una tabla/densidad genérica, primero normalizá y construí la función que corresponda.</p></div>
+      <div class="card"><h4>R: regla de lectura</h4><p><code>d*</code> da probabilidad puntual en discretas y <b>densidad</b> en continuas. <code>p*</code> devuelve la acumulada $F_X(x)=P(X\le x)$.</p></div>
+    </div>
+    <div class="warning callout"><span class="label">Ojo conceptual</span>En una variable continua, $f_X(c)$ no es $P(X=c)$. Siempre vale $P(X=c)=0$; para probabilidades se integra en un intervalo.</div>
+  </section>
+
+  <section id="mapa" class="topic">
+    <h2>Mapa de patrones de ejercicio</h2>
+    <p>El PDF original agrupaba varios procedimientos dentro de tipos muy amplios. Acá se mantienen sus siete <b>familias</b>, pero se separan los <b>subtipos operativos</b> cuando el reconocimiento o la estrategia cambian.</p>
+    <table>
+      <thead><tr><th>Patrón</th><th>Cómo lo reconocés</th><th>Herramienta central</th><th>Ejemplo real incluido en este resumen</th></tr></thead>
+      <tbody>
+        <tr><td>1. Condicional / total / Bayes</td><td>“Sabiendo que…”, grupos que forman el 100%, invertir condición</td><td>$P(A|B)$, total y Bayes</td><td>Sí: manzanas fertilizadas/naturales</td></tr>
+        <tr><td>2A. V.A. discreta: tabla/constante</td><td>Tabla $p_X$, “hallar $k$”, probabilidades que deben sumar 1</td><td>Normalización</td><td>Teoría sí; ejemplo principal combinado con ganancia</td></tr>
+        <tr><td>2B. Ganancia y esperanza</td><td>“ganancia neta”, costo de entrada, pago por éxito</td><td>Transformación $G=aY-b$, esperanza</td><td>Sí: “TODOS 5”</td></tr>
+        <tr><td>3A. Densidad y constante</td><td>$f_X(x)=k\,g(x)$ en un soporte</td><td>$\int f=1$</td><td>Sí: demanda de gas propano</td></tr>
+        <tr><td>3B. Construir FDA</td><td>“hallar $F_X$”, densidad por tramos</td><td>$F_X(x)=\int_{-\infty}^x f$</td><td>Sí, dentro del mismo ejercicio</td></tr>
+        <tr><td>3C. Cuantil/percentil</td><td>“5% superior”, “valor mínimo para…”</td><td>$F_X(q)=p$</td><td>Sí, dentro del mismo ejercicio</td></tr>
+        <tr><td>4A. Binomial</td><td>$n$ ensayos, éxito/fracaso, $p$ constante, independencia</td><td>$\mathrm{Bin}(n,p)$</td><td>Aparece como segundo nivel en el ejercicio Poisson</td></tr>
+        <tr><td>4B. Hipergeométrica</td><td>Población finita, extracción sin reposición</td><td>$\mathrm{Hip}(N,K,n)$</td><td>No hay ejemplo resuelto específico en este resumen</td></tr>
+        <tr><td>4C. Poisson</td><td>Conteos por unidad de tiempo/espacio, tasa $\lambda$</td><td>$\mathrm{Pois}(\lambda)$</td><td>Sí: anillos vendidos por semana</td></tr>
+        <tr><td>4D. Geométrica</td><td>“hasta el primer éxito”</td><td>$\mathrm{Geom}(p)$</td><td>No hay ejemplo resuelto específico en este resumen</td></tr>
+        <tr><td>4E. Modelo encadenado</td><td>Primero se calcula una probabilidad y luego esa probabilidad pasa a ser $p$ de otro modelo</td><td>Modelo 1 → parámetro del modelo 2</td><td>Sí: Poisson → Binomial</td></tr>
+        <tr><td>5A. Uniforme</td><td>“uniformemente en $[a,b]$”</td><td>$U(a,b)$</td><td>No hay ejemplo resuelto específico en este resumen</td></tr>
+        <tr><td>5B. Exponencial</td><td>Tiempo de vida/espera y falta de memoria</td><td>$\mathrm{Exp}(\lambda)$</td><td>Sí: lámpara LED</td></tr>
+        <tr><td>5C. Normal</td><td>Media, varianza/desvío, estandarización</td><td>$Z=(X-\mu)/\sigma$</td><td>Aparece en el ejemplo de Bayes</td></tr>
+        <tr><td>6A. TCL para promedio</td><td>“promedio de $n$”, “aproximadamente”</td><td>$\bar X\approx N(\mu,\sigma^2/n)$</td><td>Sí: promedio de 420 lámparas</td></tr>
+        <tr><td>6B. TCL para suma</td><td>“suma total”, “ganancia acumulada”</td><td>$S_n\approx N(n\mu,n\sigma^2)$</td><td>Teoría sí; sin ejemplo separado</td></tr>
+        <tr><td>7A. Método de momentos</td><td>“estimador de momentos de $\theta$”</td><td>$E[X]=\bar X$</td><td>Sí: densidad con parámetro $\theta$</td></tr>
+        <tr><td>7B. Insesgadez</td><td>“decidir si el estimador es insesgado”</td><td>$E[\hat\theta]=\theta$</td><td>Sí, mismo ejercicio (2022)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="familia1" class="topic">
+    <h2>1. Probabilidad condicional, probabilidad total y Bayes</h2>
+    <div class="recognize callout"><span class="label">Cómo reconocerlo</span>
+      <b>“Sabiendo que…” / “dado que…”</b> → probabilidad condicional. <b>Varios grupos que forman el 100%</b> y se pregunta una probabilidad global → probabilidad total. <b>Se conoce un resultado y se pregunta de qué grupo/origen vino</b> → Bayes.
+    </div>
+    <details open><summary>Teoría necesaria</summary><div class="details-body">
+      <p>La condicional cambia el universo: al saber que ocurrió $B$, la probabilidad de $A$ se calcula dentro de $B$.</p>
+      <div class="formula-box">$$P(A\mid B)=\frac{P(A\cap B)}{P(B)},\qquad P(B)>0$$</div>
+      <p>Si $\{B_1,\ldots,B_k\}$ forma una partición del espacio:</p>
+      <div class="formula-box">$$P(A)=\sum_{i=1}^{k}P(A\mid B_i)P(B_i)$$</div>
+      <p>Bayes invierte la condición:</p>
+      <div class="formula-box">$$P(B_j\mid A)=\frac{P(A\mid B_j)P(B_j)}{\sum_{i=1}^{k}P(A\mid B_i)P(B_i)}$$</div>
+      <p>Independencia:</p>
+      <div class="formula-box">$$P(A\cap B)=P(A)P(B)\quad\Longleftrightarrow\quad P(A\mid B)=P(A)$$</div>
+    </div></details>
+    <div class="ops callout"><span class="label">Procedimiento de parcial</span>
+      <div class="step"><div class="n">1</div><div>Identificá los grupos de origen $B_i$ y verificá que representen el total.</div></div>
+      <div class="step"><div class="n">2</div><div>Traducí frases: “20% de los del grupo F…” significa $P(A\mid F)$, no $P(A\cap F)$.</div></div>
+      <div class="step"><div class="n">3</div><div>Si piden una probabilidad global, aplicá total. Si piden el origen conocido el resultado, aplicá Bayes.</div></div>
+    </div>
+    <div class="error callout"><span class="label">Errores frecuentes</span>Confundir $P(A\mid B)$ con $P(B\mid A)$; usar un porcentaje condicional como si fuera una intersección; olvidar que el denominador de Bayes es la probabilidad total del dato observado.</div>
+    <details open><summary>Ejemplo del PDF: manzanas fertilizadas/naturales</summary><div class="details-body">
+      <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>Un agricultor cultiva el 80% de su producción con fertilizante (F) y el 20% restante en forma natural (N). El peso $X$ de las manzanas con fertilizante sigue $N(220,64)$, con $\sigma_F=8$, y con cultivo natural sigue $N(180,100)$, con $\sigma_N=10$.<br><b>a)</b> Calcular $P(X>200)$. <b>b)</b> Si una manzana pesa menos de 200 g, hallar la probabilidad de que haya sido cultivada naturalmente.</div>
+      <p><b>a) Probabilidad total.</b></p>
+      <div class="formula-box">$$P(X>200\mid F)=P\left(Z>\frac{200-220}{8}\right)=P(Z>-2.5)=0.9938$$</div>
+      <div class="formula-box">$$P(X>200\mid N)=P\left(Z>\frac{200-180}{10}\right)=P(Z>2)=0.0228$$</div>
+      <div class="formula-box">$$P(X>200)=(0.9938)(0.80)+(0.0228)(0.20)=0.7996$$</div>
+      <p><b>b) Bayes.</b> Como la Normal es continua, $P(X=200)=0$, por lo que:</p>
+      <div class="formula-box">$$P(X<200)=1-0.7996=0.2004$$</div>
+      <div class="formula-box">$$P(X<200\mid N)=1-0.0228=0.9772$$</div>
+      <div class="formula-box">$$P(N\mid X<200)=\frac{(0.9772)(0.20)}{0.2004}=0.9752$$</div>
+    </div></details>
+  </section>
+
+  <section id="familia2" class="topic">
+    <h2>2. Variables aleatorias discretas generales y ganancia</h2>
+    <div class="grid">
+      <div class="recognize callout"><span class="label">2A · Tabla / constante</span>Si aparece una función puntual $p_X(k)$ o una tabla con una constante desconocida, primero pensá en <b>normalización</b>: todas las probabilidades deben sumar 1.</div>
+      <div class="recognize callout"><span class="label">2B · Ganancia</span>Si hay precio de entrada, premio por éxito o “ganancia neta”, definí una nueva variable con <b>cobro − costo</b>.</div>
+    </div>
+    <details open><summary>Teoría necesaria</summary><div class="details-body">
+      <div class="formula-box">$$\sum_{x\in S_X}p_X(x)=1$$</div>
+      <div class="formula-box">$$F_X(x)=P(X\le x)=\sum_{x_i\le x}p_X(x_i)$$</div>
+      <div class="formula-box">$$E[X]=\sum_x x\,p_X(x)$$</div>
+      <div class="formula-box">$$V(X)=E[X^2]-E[X]^2,\qquad E[X^2]=\sum_x x^2p_X(x)$$</div>
+      <div class="formula-box">$$E[aX+b]=aE[X]+b,\qquad V(aX+b)=a^2V(X)$$</div>
+      <p>En juegos, si el pago es $M$ por cada éxito y la entrada cuesta $C$:</p>
+      <div class="formula-box">$$G=M\,Y-C$$</div>
+      <p>Un juego es justo si $E[G]=0$.</p>
+    </div></details>
+    <div class="ops callout"><span class="label">Procedimiento</span><b>Tabla:</b> soporte → normalizar → calcular acumulada/esperanza/varianza según lo pedido. <b>Ganancia:</b> definir primero la variable de conteo $Y$, luego transformar a $G$, recién después calcular $E[G]$.</div>
+    <div class="error callout"><span class="label">Errores frecuentes</span>Usar el pago bruto como ganancia; olvidar el costo fijo; cambiar los valores de la variable pero no conservar sus probabilidades; confundir $E[G]$ con una ganancia garantizada.</div>
+    <details open><summary>Ejemplo del PDF: “TODOS 5”</summary><div class="details-body">
+      <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>Para jugar hay que pagar $1500. Se tiran 4 dados distinguibles y la casa paga $3000 por cada cinco obtenido. <b>a)</b> Hallar la función puntual de la ganancia neta $G$. <b>b)</b> Calcular $E[G]$. <b>c)</b> Si Juan juega 45 veces, hallar su ganancia esperada.</div>
+      <p>Sea $Y=$ cantidad de cincos en 4 dados:</p>
+      <div class="formula-box">$$Y\sim\mathrm{Bin}\left(4,\frac16\right),\qquad G=3000Y-1500$$</div>
+      <table><thead><tr><th>$Y$</th><th>$G$</th><th>$P(Y=y)=P(G=g)$</th></tr></thead><tbody>
+        <tr><td>0</td><td>-1500</td><td>$625/1296\approx0.4823$</td></tr>
+        <tr><td>1</td><td>1500</td><td>$500/1296\approx0.3858$</td></tr>
+        <tr><td>2</td><td>4500</td><td>$150/1296\approx0.1157$</td></tr>
+        <tr><td>3</td><td>7500</td><td>$20/1296\approx0.0154$</td></tr>
+        <tr><td>4</td><td>10500</td><td>$1/1296\approx0.0008$</td></tr>
+      </tbody></table>
+      <div class="formula-box">$$E[Y]=4\cdot\frac16=\frac23$$</div>
+      <div class="formula-box">$$E[G]=3000\cdot\frac23-1500=500$$</div>
+      <div class="formula-box">$$E[S_{45}]=45\,E[G]=45\cdot500=22500$$</div>
+    </div></details>
+  </section>
+
+  

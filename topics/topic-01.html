@@ -1,0 +1,45 @@
+<section class="topic" data-title="Conteo clásico, espacio muestral y secuencias equiprobables" id="tipo-1">
+<div class="topic-head">
+<div class="type-num">1</div>
+<div>
+<div class="eyebrow">TIPO DE EJERCICIO 1</div>
+<h2>Conteo clásico, espacio muestral y secuencias equiprobables</h2>
+</div>
+<div class="freq">≈ 4 apariciones</div>
+</div>
+<div class="recognize">
+<h3>👀 Cómo reconocerlo</h3>
+<ul><li>Cada persona/objeto hace una elección entre varias opciones y las elecciones son independientes.</li><li>Aparecen frases como <b>“describir el espacio muestral”</b>, <b>“todos”</b>, <b>“exactamente k”</b>, <b>“por lo menos uno”</b> o <b>“todos distintos”</b>.</li><li>Si hay <b>orden</b> y cada posición tiene las mismas m opciones, suele aparecer \(m^n\).</li></ul>
+</div>
+<details class="panel theory" open="">
+<summary>Teoría que necesitás entender</summary>
+<div class="panel-body">
+<p>La primera pregunta es siempre: <b>¿qué constituye un resultado elemental?</b> Si cinco estudiantes eligen turno, un resultado es una secuencia de cinco elecciones. Si todas las secuencias tienen la misma probabilidad, puede usarse probabilidad clásica:</p>
+<div class="eq">\[P(A)=\frac{|A|}{|\Omega|}\]</div>
+<p>Cuando hay que ubicar exactamente \(k\) éxitos en \(n\) posiciones aparece el número combinatorio. Si además las posiciones restantes pueden tomar varias categorías, esas posibilidades también se multiplican.</p>
+</div>
+</details>
+<div class="subhead">Fórmulas y decisiones rápidas</div>
+<div class="formula-grid"><div class="formula-card"><div class="formula-name">Secuencias</div><div class="formula-math">\[|\Omega|=m^n\]</div><div class="formula-note">n posiciones, m opciones por posición.</div></div><div class="formula-card"><div class="formula-name">Exactamente k éxitos</div><div class="formula-math">\[\binom{n}{k}p^k(1-p)^{n-k}\]</div><div class="formula-note">Si el problema se puede ver como éxito/fracaso.</div></div><div class="formula-card"><div class="formula-name">Multinomial</div><div class="formula-math">\[\frac{n!}{n_1!\cdots n_r!}\prod_i p_i^{n_i}\]</div><div class="formula-note">Cuando hay más de dos categorías y se fijan sus cantidades.</div></div></div>
+<div class="two-col">
+<div class="steps"><h3>🧭 Procedimiento de parcial</h3><ol><li>Definí qué representa un resultado elemental y si el orden importa.</li><li>Contá el total de resultados posibles.</li><li>Traducí la condición pedida a resultados favorables.</li><li>Dividí favorables por totales, o reconocé Binomial/Multinomial si simplifica.</li></ol></div>
+<div class="errors"><h3>⚠️ Errores frecuentes</h3><ul><li>Contar combinaciones cuando el orden sí importa.</li><li>Olvidar que “exactamente dos de mañana” deja libertad para que los otros tres sean tarde o noche.</li><li>Usar \(\binom nk\) sin justificar qué posiciones se están eligiendo.</li></ul></div>
+</div>
+<details class="panel example"><summary>Ejercicio modelo del PDF + resolución completa</summary><div class="panel-body">
+<div class="source">Primer Parcial 27/09/2019 — Ejercicio 1 — p. 1</div>
+<blockquote>La materia Estadística 1 se dicta en la UNSAM a la mañana a la tarde o a la noche. Cinco estudiantes eligen el turno de cursada de dicha materia al azar.
+(a) Describir el espacio muestral asociado a este experimento. ¿Cuántos elementos tiene?
+(b) ¿Cuál es la probabilidad de que los cinco estudiantes asistan al mismo turno?
+(c) ¿Cuál es la probabilidad de que exactamente dos de los cinco estudiantes asistan al turno mañana?</blockquote>
+<div class="solution"><h4>Resolución paso a paso</h4>
+<p>Definimos los turnos \(M,T,N\). Cada estudiante aporta una posición de la secuencia.</p>
+<div class="eq">\[\Omega=\{M,T,N\}^5\]</div>
+<div class="eq">\[|\Omega|=3^5=243\]</div>
+<p><b>b) Todos al mismo turno.</b> Solo sirven MMMMM, TTTTT y NNNNN: tres resultados favorables.</p>
+<div class="eq">\[P(\text{mismo turno})=\frac{3}{243}=\frac1{81}\approx0.01235\]</div>
+<p><b>c) Exactamente dos de mañana.</b> Elegimos qué dos estudiantes van a la mañana y los otros tres pueden elegir tarde o noche.</p>
+<div class="eq">\[N_F=\binom52\,2^3=10\cdot8=80\]</div>
+<div class="eq">\[P=\frac{80}{243}\approx0.32922\]</div>
+<p class="answer"><b>Respuesta de parcial:</b> \(|\Omega|=243\); la probabilidad de mismo turno es \(1/81\) y la de exactamente dos en mañana es \(80/243\approx0.329\).</p>
+</div></div></details>
+</section>

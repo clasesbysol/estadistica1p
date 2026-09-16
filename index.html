@@ -2,27 +2,46 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#5b4b9a">
-<meta name="application-name" content="Estadística Aplicada">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#352a59">
+<meta name="application-name" content="Estadística 1P">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Estadística 1P">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="stylesheet" href="./app.css">
-<title>Guía de Parciales — Estadística Aplicada UNSAM</title>
+<title>Estadística Aplicada · Guía de Parciales 1P</title>
 <script>
 window.MathJax = {
-  tex: {inlineMath: [['$', '$']], displayMath: [['$$','$$']], processEscapes: true},
+  tex: {inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']]},
   svg: {fontCache: 'global'}
 };
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<div id="mount"><div class="loading">Cargando guía de Estadística…</div></div>
+<button id="menuBtn" aria-label="Abrir índice">☰ Índice</button>
+<aside id="sidebar">
+  <div class="brand"><div class="brand-mark">Σ</div><div><h1>Estadística · 1er parcial</h1><p>Guía construida desde parciales reales</p></div></div>
+  <div class="side-tools">
+    <input id="search" class="search" placeholder="Buscar tipo, palabra, fórmula…">
+    <button id="installBtn" class="install">Instalar app</button>
+    <div id="installStatus" class="side-status">Disponible desde GitHub Pages</div>
+  </div>
+  <div class="toc-title">Mapa</div>
+  <nav id="staticNav">
+    <a href="#inicio"><span>⌂</span>Inicio</a>
+    <a href="#mapa"><span>↳</span>Mapa general</a>
+    <a href="#inventario"><span>✓</span>Inventario del PDF</a>
+  </nav>
+  <div class="toc-title">Tipos de ejercicio</div>
+  <nav id="typeNav"></nav>
+</aside>
+<main id="mount"><div class="hero" style="padding:28px">Cargando guía…</div></main>
+<button id="topBtn" title="Volver arriba">↑</button>
 <script src="./app.js"></script>
 </body>
 </html>

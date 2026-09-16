@@ -1,0 +1,126 @@
+<section id="exponencial" class="topic">
+      <h3>5B. Exponencial</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>Tiempo de espera, duración o vida hasta que ocurre un evento/falla; suele aparecer una tasa $\lambda$ o una media $1/\lambda$.</div>
+      <div class="formula-box">$$X\sim\mathrm{Exp}(\lambda),\qquad f_X(x)=\lambda e^{-\lambda x}I_{(0,\infty)}(x)$$</div>
+      <div class="formula-box">$$F_X(x)=1-e^{-\lambda x},\qquad E[X]=\frac1\lambda,\qquad V(X)=\frac1{\lambda^2}$$</div>
+      <div class="formula-box">$$P(X>s+t\mid X>s)=P(X>t)=e^{-\lambda t}$$</div>
+      <div class="error callout"><span class="label">Error típico</span>Si te dan “duración promedio 25”, no uses $\lambda=25$: la tasa es $\lambda=1/25$.</div>
+      <details open><summary>Ejemplo del PDF: lámpara LED</summary><div class="details-body">
+        <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>$X\sim\mathrm{Exp}(0.04)$. <b>a)</b> Calcular $P(26\le X\le28)$. <b>b)</b> Sabiendo que funcionó 25 meses, calcular la probabilidad de que dure más de 50 meses en total.</div>
+        <div class="formula-box">$$P(26\le X\le28)=F(28)-F(26)=e^{-1.04}-e^{-1.12}\approx0.02717$$</div>
+        <p>Por falta de memoria:</p>
+        <div class="formula-box">$$P(X>50\mid X>25)=P(X>25)=e^{-0.04\cdot25}=e^{-1}\approx0.3679$$</div>
+      </div></details>
+    </section>
+
+    <section id="normal" class="topic">
+      <h3>5C. Normal</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>La consigna nombra distribución Normal y da media $\mu$ y varianza $\sigma^2$ o desvío $\sigma$. Para probabilidades se estandariza o se usa <code>pnorm</code>.</div>
+      <div class="formula-box">$$X\sim N(\mu,\sigma^2)$$</div>
+      <div class="formula-box">$$f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$</div>
+      <div class="formula-box">$$Z=\frac{X-\mu}{\sigma}\sim N(0,1)$$</div>
+      <div class="formula-box">$$P(a\le X\le b)=\Phi\left(\frac{b-\mu}{\sigma}\right)-\Phi\left(\frac{a-\mu}{\sigma}\right)$$</div>
+      <div class="warning callout"><span class="label">Corrección del PDF</span>La densidad Normal estaba mal maquetada en el archivo original. El factor correcto es $1/(\sigma\sqrt{2\pi})$. En R, <code>pnorm(x, mean, sd)</code> recibe el <b>desvío</b> $\sigma$, no la varianza $\sigma^2$.</div>
+    </section>
+  </section>
+
+  <section id="familia6" class="topic">
+    <h2>6. Teorema Central del Límite (TCL)</h2>
+    <div class="grid">
+      <div class="recognize callout"><span class="label">6A · Promedio</span>“Promedio de $n$ observaciones”, “probabilidad aproximada de la media” → trabajá con $\bar X_n$.</div>
+      <div class="recognize callout"><span class="label">6B · Suma</span>“Suma total”, “ganancia acumulada”, “consumo total” → trabajá con $S_n$.</div>
+    </div>
+    <details open><summary>Teoría y fórmulas correctas</summary><div class="details-body">
+      <p>Para variables i.i.d. con $E[X_i]=\mu$ y $V(X_i)=\sigma^2<\infty$, para $n$ grande:</p>
+      <div class="formula-box">$$S_n=\sum_{i=1}^nX_i\approx N(n\mu,n\sigma^2)$$</div>
+      <div class="formula-box">$$\bar X_n=\frac{S_n}{n}\approx N\left(\mu,\frac{\sigma^2}{n}\right)$$</div>
+      <div class="formula-box">$$\sigma_{\bar X}=\frac{\sigma}{\sqrt n}=\sqrt{\frac{\sigma^2}{n}}$$</div>
+      <div class="formula-box">$$Z_{\bar X}=\frac{\bar X-\mu}{\sigma/\sqrt n}$$</div>
+      <div class="formula-box">$$Z_{S}=\frac{S_n-n\mu}{\sigma\sqrt n}$$</div>
+    </div></details>
+    <div class="warning callout"><span class="label">Corrección del PDF</span>La línea práctica del archivo mezclaba $\sigma$ y $\sigma^2$ dentro de la raíz. Para el promedio, el desvío correcto es $\sigma/\sqrt n$, equivalente a $\sqrt{\sigma^2/n}$.</div>
+    <div class="ops callout"><span class="label">Procedimiento</span>1) Hallá $\mu$ y $\sigma^2$ de <b>una</b> observación. 2) Decidí si piden suma o promedio. 3) Construí la media y el desvío de esa nueva variable. 4) Estandarizá o usá <code>pnorm</code>.</div>
+    <div class="error callout"><span class="label">Errores frecuentes</span>Usar $\sigma$ en lugar de $\sigma/\sqrt n$ para el promedio; usar $n\sigma$ en vez de $\sqrt n\sigma$ para el desvío de la suma; no distinguir suma de promedio.</div>
+    <details open><summary>Ejemplo del PDF: promedio de 420 lámparas</summary><div class="details-body">
+      <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>Se toman $n=420$ lámparas independientes con $X_i\sim\mathrm{Exp}(0.04)$. Hallar aproximadamente la probabilidad de que la duración promedio esté entre 26 y 28 meses.</div>
+      <div class="formula-box">$$\mu=E[X_i]=\frac1{0.04}=25$$</div>
+      <div class="formula-box">$$\sigma^2=\frac1{0.04^2}=625,\qquad \sigma=25$$</div>
+      <div class="formula-box">$$\bar X_{420}\approx N\left(25,\frac{625}{420}\right)$$</div>
+      <div class="formula-box">$$\sigma_{\bar X}=\sqrt{\frac{625}{420}}=\frac{25}{\sqrt{420}}\approx1.21953$$</div>
+      <div class="formula-box">$$P(26\le\bar X_{420}\le28)=0.993039-0.793822=0.199217\approx0.1992$$</div>
+    </div></details>
+  </section>
+
+  <section id="familia7" class="topic">
+    <h2>7. Estimación puntual: método de momentos e insesgadez</h2>
+    <div class="grid">
+      <div class="recognize callout"><span class="label">7A · Momentos</span>“Sea $X_1,\ldots,X_n$ una muestra aleatoria”, “hallar el estimador de momentos de $\theta$”.</div>
+      <div class="recognize callout"><span class="label">7B · Insesgadez</span>“Decidir si el estimador es insesgado” → calcular su esperanza y compararla con $\theta$.</div>
+    </div>
+    <details open><summary>Teoría necesaria</summary><div class="details-body">
+      <p>Para el método de un momento, se iguala el primer momento teórico con el primer momento muestral.</p>
+      <div class="formula-box">$$E[X]=g(\theta)$$</div>
+      <div class="formula-box">$$\bar X=\frac1n\sum_{i=1}^nX_i$$</div>
+      <div class="formula-box">$$g(\theta)=\bar X\quad\Longrightarrow\quad \hat\theta_{MM}=g^{-1}(\bar X)$$</div>
+      <p>Sesgo:</p>
+      <div class="formula-box">$$B(\hat\theta)=E[\hat\theta]-\theta$$</div>
+      <p>Insesgadez:</p>
+      <div class="formula-box">$$E[\hat\theta]=\theta$$</div>
+    </div></details>
+    <div class="ops callout"><span class="label">Procedimiento</span>1) Calculá $E[X]$ usando la densidad/pmf y expresalo en función de $\theta$. 2) Igualá ese resultado a $\bar X$. 3) Despejá $\theta$ y renombralo $\hat\theta_{MM}$. 4) Si piden insesgadez, tomá esperanza del estimador y verificá si recuperás $\theta$.</div>
+    <div class="error callout"><span class="label">Errores frecuentes</span>Confundir el parámetro $\theta$ con su estimador $\hat\theta$; igualar la densidad a $\bar X$ en lugar del momento; declarar insesgadez sin calcular $E[\hat\theta]$.</div>
+    <details open><summary>Ejemplo del PDF: estimador de momentos (Parcial 2022)</summary><div class="details-body">
+      <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>Sea una muestra aleatoria con $$f(x,\theta)=\frac{3\theta^3}{x^4}I_{(\theta,\infty)}(x),\qquad \theta>0.$$ <b>a)</b> Hallar el estimador de momentos de $\theta$. <b>b)</b> Decidir si es insesgado.</div>
+      <p><b>a) Primer momento teórico.</b></p>
+      <div class="formula-box">$$E[X]=\int_{\theta}^{\infty}x\frac{3\theta^3}{x^4}\,dx=3\theta^3\int_{\theta}^{\infty}x^{-3}\,dx$$</div>
+      <div class="formula-box">$$E[X]=\frac32\theta$$</div>
+      <p>Igualamos al momento muestral:</p>
+      <div class="formula-box">$$\frac32\theta=\bar X$$</div>
+      <div class="formula-box">$$\hat\theta_{MM}=\frac23\bar X$$</div>
+      <p><b>b) Insesgadez.</b></p>
+      <div class="formula-box">$$E[\hat\theta_{MM}]=E\left[\frac23\bar X\right]=\frac23E[\bar X]$$</div>
+      <div class="formula-box">$$E[\bar X]=E[X]=\frac32\theta$$</div>
+      <div class="formula-box">$$E[\hat\theta_{MM}]=\frac23\cdot\frac32\theta=\theta$$</div>
+      <p>Por lo tanto, el estimador es <b>insesgado</b>.</p>
+    </div></details>
+  </section>
+
+  <section id="formulas" class="topic">
+    <h2>Hoja rápida de fórmulas esenciales</h2>
+    <table>
+      <thead><tr><th>Situación</th><th>Fórmula / idea</th></tr></thead>
+      <tbody>
+        <tr><td>Condicional</td><td>$P(A|B)=P(A\cap B)/P(B)$</td></tr>
+        <tr><td>Total</td><td>$P(A)=\sum_iP(A|B_i)P(B_i)$</td></tr>
+        <tr><td>Bayes</td><td>$P(B_j|A)=\dfrac{P(A|B_j)P(B_j)}{\sum_iP(A|B_i)P(B_i)}$</td></tr>
+        <tr><td>Esperanza discreta</td><td>$E[X]=\sum_xxp_X(x)$</td></tr>
+        <tr><td>Varianza</td><td>$V(X)=E[X^2]-E[X]^2$</td></tr>
+        <tr><td>Continua</td><td>$P(a\le X\le b)=\int_a^bf_X(x)dx=F(b)-F(a)$</td></tr>
+        <tr><td>Binomial</td><td>$\binom nkp^k(1-p)^{n-k}$</td></tr>
+        <tr><td>Hipergeométrica</td><td>$\dfrac{\binom Kk\binom{N-K}{n-k}}{\binom Nn}$</td></tr>
+        <tr><td>Poisson</td><td>$e^{-\lambda}\lambda^k/k!$</td></tr>
+        <tr><td>Geométrica (ensayo del 1.er éxito)</td><td>$(1-p)^{k-1}p$; en R usar $k-1$</td></tr>
+        <tr><td>Exponencial</td><td>$F(x)=1-e^{-\lambda x}$; $P(X>s+t|X>s)=P(X>t)$</td></tr>
+        <tr><td>Normal</td><td>$Z=(X-\mu)/\sigma$</td></tr>
+        <tr><td>TCL promedio</td><td>$\bar X\approx N(\mu,\sigma^2/n)$; desvío $\sigma/\sqrt n$</td></tr>
+        <tr><td>TCL suma</td><td>$S_n\approx N(n\mu,n\sigma^2)$; desvío $\sigma\sqrt n$</td></tr>
+        <tr><td>Momentos</td><td>$E[X]=\bar X$ y despejar $\theta$</td></tr>
+        <tr><td>Insesgadez</td><td>$E[\hat\theta]=\theta$</td></tr>
+      </tbody>
+    </table>
+    <div class="warning callout"><span class="label">Regla final de lectura</span>Antes de tocar una fórmula, escribí: <b>qué variable es, qué valores puede tomar, qué distribución/modelo tiene y qué probabilidad pide exactamente la frase de la consigna.</b></div>
+  </section>
+
+  <div class="footer">Fuente de contenido: PDF “Resumen de Parciales y Marco Teórico Estadística Aplicada – UNSAM”. Esta versión corrige errores matemáticos detectables y reorganiza el material sin inventar frecuencias, fechas ni consignas ausentes del archivo fuente.</div>
+</div>
+</main>
+</div>
+<button id="installFab" class="install-fab" type="button">⬇ Instalar app</button>
+<div id="installOverlay" class="install-overlay" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+  <div class="install-sheet">
+    <h3 id="installTitle">Instalar Estadística como app</h3>
+    <p id="installHelp">Si la instalación automática todavía no está disponible, esperá unos segundos y volvé a tocar el botón. Si tu navegador no ofrece el instalador, usá su menú y elegí “Instalar app” o “Agregar a pantalla principal”.</p>
+    <p><b>En Android/Chrome:</b> también podés usar ⋮ → <b>Agregar a pantalla principal</b> o <b>Instalar app</b>.</p>
+    <div class="sheet-actions"><button id="closeInstallHelp" type="button">Cerrar</button></div>
+  </div>
+</div>

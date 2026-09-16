@@ -1,4 +1,4 @@
-const CACHE = 'estadistica1p-v1';
+const CACHE = 'estadistica1p-v2';
 const CORE = [
   './',
   './index.html',
@@ -6,7 +6,8 @@ const CORE = [
   './app.css',
   './app.js',
   './content-a.html',
-  './content-b.html',
+  './content-b1.html',
+  './content-b2.html',
   './icon-192.png',
   './icon-512.png'
 ];

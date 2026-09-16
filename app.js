@@ -1,7 +1,8 @@
 async function boot(){
   const mount=document.getElementById('mount');
   try{
-    const files=['content-a.html','content-b1.html','content-b2.html','content-b3.html'];
+    const topicFiles=Array.from({length:17},(_,i)=>`topics/topic-${String(i+1).padStart(2,'0')}.html`);
+    const files=['content-a.html',...topicFiles,'topics/inventory.html'];
     const chunks=await Promise.all(files.map(f=>fetch('./'+f).then(r=>{if(!r.ok)throw new Error(f);return r.text()})));
     mount.innerHTML=chunks.join('\n');
   }catch(e){
@@ -28,9 +29,7 @@ async function boot(){
   const search=document.getElementById('search');
   search.addEventListener('input',()=>{
     const q=search.value.toLowerCase().trim();
-    document.querySelectorAll('.topic').forEach(s=>{
-      s.classList.toggle('hidden',q && !s.innerText.toLowerCase().includes(q));
-    });
+    document.querySelectorAll('.topic').forEach(s=>s.classList.toggle('hidden',q && !s.innerText.toLowerCase().includes(q)));
   });
 
   document.getElementById('topBtn').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
@@ -49,10 +48,8 @@ async function boot(){
   if(standalone()) installedUI();
 
   window.addEventListener('beforeinstallprompt',e=>{
-    e.preventDefault();
-    deferredPrompt=e;
-    installBtn.classList.add('ready');
-    installStatus.textContent='Lista para instalar';
+    e.preventDefault(); deferredPrompt=e;
+    installBtn.classList.add('ready'); installStatus.textContent='Lista para instalar';
   });
   installBtn.addEventListener('click',async()=>{
     if(standalone()) return installedUI();

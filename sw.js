@@ -1,8 +1,8 @@
-const CACHE='estadistica1p-v3';
+const CACHE='estadistica1p-v4';
+const TOPICS=Array.from({length:17},(_,i)=>`./topics/topic-${String(i+1).padStart(2,'0')}.html`);
 const CORE=[
-  './','./index.html','./manifest.webmanifest','./app.css','./app.js',
-  './content-a.html','./content-b1.html','./content-b2.html','./content-b3.html',
-  './icon-192.png','./icon-512.png'
+  './','./index.html','./manifest.webmanifest','./app.css','./app.js','./content-a.html',
+  ...TOPICS,'./topics/inventory.html','./icon-192.png','./icon-512.png'
 ];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

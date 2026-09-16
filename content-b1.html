@@ -1,0 +1,111 @@
+<section id="familia3" class="topic">
+    <h2>3. Densidad continua, FDA y cuantiles</h2>
+    <div class="grid">
+      <div class="recognize callout"><span class="label">3A · Normalización</span>$f_X(x)=k\,g(x)$ con soporte → imponé que el área total sea 1.</div>
+      <div class="recognize callout"><span class="label">3B · FDA</span>“Hallar $F_X$” → integrar desde el borde izquierdo del soporte y escribirla por tramos.</div>
+      <div class="recognize callout"><span class="label">3C · Percentil</span>“5% superior” → el corte deja 0.05 a la derecha, entonces $F(q)=0.95$.</div>
+      <div class="warning callout"><span class="label">Clave</span>En continuas, $P(X=c)=0$. Las probabilidades salen de áreas/integrales.</div>
+    </div>
+    <details open><summary>Teoría necesaria</summary><div class="details-body">
+      <div class="formula-box">$$f_X(x)\ge0,\qquad \int_{-\infty}^{\infty}f_X(x)\,dx=1$$</div>
+      <div class="formula-box">$$F_X(x)=\int_{-\infty}^{x}f_X(t)\,dt$$</div>
+      <div class="formula-box">$$P(a\le X\le b)=\int_a^bf_X(x)\,dx=F_X(b)-F_X(a)$$</div>
+      <div class="formula-box">$$E[X]=\int_{-\infty}^{\infty}x f_X(x)\,dx$$</div>
+      <div class="formula-box">$$V(X)=\int_{-\infty}^{\infty}x^2 f_X(x)\,dx-E[X]^2$$</div>
+      <div class="formula-box">$$F_X(q_p)=p$$</div>
+    </div></details>
+    <div class="ops callout"><span class="label">Procedimiento</span>1) Leé el soporte. 2) Normalizá para hallar $k$. 3) Para la FDA, usá 0 antes del soporte, la integral dentro del soporte y 1 después. 4) Para percentiles, traducí primero qué porcentaje queda a la izquierda.</div>
+    <div class="error callout"><span class="label">Errores frecuentes</span>Integrar fuera del soporte; olvidar los tramos 0 y 1 de la FDA; resolver una ecuación de cuantil y elegir una raíz fuera del soporte.</div>
+    <details open><summary>Ejemplo del PDF: demanda semanal de gas propano</summary><div class="details-body">
+      <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>$f_X(x)=k\left(1-\frac1{x^2}\right)I_{[1,2]}(x)$. <b>a)</b> Hallar $k$ y $F_X(x)$. <b>b)</b> Si el 5% de las semanas con mayor demanda son “Tipo I”, hallar el mínimo de galones para pertenecer a ese grupo.</div>
+      <p><b>a) Normalización.</b></p>
+      <div class="formula-box">$$\int_1^2 k\left(1-x^{-2}\right)dx=1$$</div>
+      <div class="formula-box">$$k\left[x+x^{-1}\right]_1^2=k(2.5-2)=0.5k=1$$</div>
+      <div class="formula-box">$$k=2$$</div>
+      <p>Para $1\le x\le2$:</p>
+      <div class="formula-box">$$F_X(x)=\int_1^x2(1-t^{-2})dt=2x+\frac2x-4$$</div>
+      <div class="formula-box">$$F_X(x)=\begin{cases}0,&x<1\\[2mm]2x+\frac2x-4,&1\le x\le2\\[2mm]1,&x>2\end{cases}$$</div>
+      <p><b>b) Percentil 95.</b></p>
+      <div class="formula-box">$$P(X\ge q)=0.05\quad\Longleftrightarrow\quad F_X(q)=0.95$$</div>
+      <div class="formula-box">$$2q+\frac2q-4=0.95$$</div>
+      <div class="formula-box">$$2q^2-4.95q+2=0$$</div>
+      <p>La raíz que pertenece al soporte es:</p>
+      <div class="formula-box">$$q\approx1.966\text{ miles de galones}=1966\text{ galones}$$</div>
+    </div></details>
+  </section>
+
+  <section id="familia4" class="topic">
+    <h2>4. Modelos discretos específicos</h2>
+    <p>Acá conviene separar el antiguo “Tipo 4” en modelos reconocibles individualmente. La elección del modelo es parte del ejercicio.</p>
+
+    <section id="binomial" class="topic">
+      <h3>4A. Binomial</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>Cantidad fija de ensayos $n$, cada ensayo tiene éxito/fracaso, la probabilidad de éxito $p$ se mantiene constante y los ensayos son independientes (o el contexto lo permite).</div>
+      <div class="formula-box">$$X\sim\mathrm{Bin}(n,p)$$</div>
+      <div class="formula-box">$$P(X=k)=\binom nk p^k(1-p)^{n-k}$$</div>
+      <div class="formula-box">$$E[X]=np,\qquad V(X)=np(1-p)$$</div>
+      <div class="ops callout"><span class="label">R</span><code>dbinom(k,n,p)</code> para $P(X=k)$; <code>pbinom(k,n,p)</code> para $P(X\le k)$.</div>
+      <div class="error callout"><span class="label">Error típico</span>Usar Binomial cuando el muestreo es sin reposición de una población finita y la probabilidad cambia entre extracciones.</div>
+    </section>
+
+    <section id="hipergeometrica" class="topic">
+      <h3>4B. Hipergeométrica</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>Población finita de tamaño $N$, hay $K$ elementos de interés, se extraen $n$ <b>sin reposición</b>.</div>
+      <div class="formula-box">$$X\sim\mathrm{Hip}(N,K,n)$$</div>
+      <div class="formula-box">$$P(X=k)=\frac{\binom Kk\binom{N-K}{n-k}}{\binom Nn}$$</div>
+      <div class="formula-box">$$E[X]=n\frac KN$$</div>
+      <div class="formula-box">$$V(X)=n\frac KN\left(1-\frac KN\right)\frac{N-n}{N-1}$$</div>
+      <div class="ops callout"><span class="label">R</span><code>dhyper</code> / <code>phyper</code>.</div>
+      <div class="source-note">El resumen fuente incluye la teoría de este modelo, pero no conserva un ejemplo resuelto específico de Hipergeométrica.</div>
+    </section>
+
+    <section id="poisson" class="topic">
+      <h3>4C. Poisson</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>Número de ocurrencias en un intervalo de tiempo/espacio con tasa media $\lambda$. Si cambia el tamaño del intervalo, ajustá $\lambda$ a ese intervalo.</div>
+      <div class="formula-box">$$X\sim\mathrm{Pois}(\lambda),\qquad P(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}$$</div>
+      <div class="formula-box">$$E[X]=\lambda,\qquad V(X)=\lambda$$</div>
+      <div class="formula-box">$$X_1+X_2\sim\mathrm{Pois}(\lambda_1+\lambda_2)\quad\text{si son independientes}$$</div>
+      <div class="ops callout"><span class="label">R</span><code>dpois</code> / <code>ppois</code>.</div>
+    </section>
+
+    <section id="geometrica" class="topic">
+      <h3>4D. Geométrica</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>La consigna cuenta cuántos intentos se necesitan <b>hasta obtener el primer éxito</b>.</div>
+      <p>Si $K$ cuenta el <b>número de ensayo</b> en el que ocurre el primer éxito:</p>
+      <div class="formula-box">$$P(K=k)=(1-p)^{k-1}p,\qquad k=1,2,3,\ldots$$</div>
+      <div class="formula-box">$$E[K]=\frac1p,\qquad V(K)=\frac{1-p}{p^2}$$</div>
+      <div class="warning callout"><span class="label">Corrección importante para R</span>R usa otra convención: <code>dgeom(x,p)</code> y <code>pgeom(x,p)</code> cuentan <b>fracasos antes del primer éxito</b>, por lo que empiezan en 0. Si tu ejercicio usa $K=1,2,3,\ldots$, entonces $$x_R=K-1$$ y para $P(K=k)$ se usa <code>dgeom(k-1,p)</code>.</div>
+      <div class="source-note">El resumen fuente incluye la teoría de Geométrica, pero no conserva un ejemplo resuelto específico.</div>
+    </section>
+
+    <section id="encadenados" class="topic">
+      <h3>4E. Modelos encadenados: un resultado se convierte en parámetro</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerlo</span>El ítem primero define un “éxito” usando otra distribución y luego pregunta cuántos éxitos aparecen en varias repeticiones. La probabilidad calculada en la primera etapa pasa a ser $p$ de una Binomial/Geométrica.</div>
+      <details open><summary>Ejemplo del PDF: Poisson → Binomial</summary><div class="details-body">
+        <div class="example callout"><span class="label">Enunciado reproducido en el resumen</span>El número de anillos vendidos por semana es $X\sim\mathrm{Pois}(4)$. <b>a)</b> Sabiendo que se vendieron por lo menos 2, calcular la probabilidad de que se hayan vendido 3 o más. <b>b)</b> Una semana es exitosa si se venden por lo menos 2 anillos. Hallar la probabilidad de que en 8 semanas haya a lo sumo 3 semanas exitosas.</div>
+        <p><b>a) Condicional dentro de Poisson.</b></p>
+        <div class="formula-box">$$P(X\ge3\mid X\ge2)=\frac{P(X\ge3)}{P(X\ge2)}$$</div>
+        <div class="formula-box">$$P(X\ge2)=1-P(X\le1)=1-5e^{-4}\approx0.908422$$</div>
+        <div class="formula-box">$$P(X\ge3)=1-P(X\le2)=1-13e^{-4}\approx0.761897$$</div>
+        <div class="formula-box">$$P(X\ge3\mid X\ge2)\approx\frac{0.761897}{0.908422}=0.8387$$</div>
+        <p><b>b) La probabilidad de “semana exitosa” pasa a ser parámetro Binomial.</b></p>
+        <div class="formula-box">$$p=P(X\ge2)=0.908422$$</div>
+        <div class="formula-box">$$W\sim\mathrm{Bin}(8,0.908422)$$</div>
+        <div class="formula-box">$$P(W\le3)=0.000284$$</div>
+      </div></details>
+    </section>
+  </section>
+
+  <section id="familia5" class="topic">
+    <h2>5. Modelos continuos específicos</h2>
+
+    <section id="uniforme" class="topic">
+      <h3>5A. Uniforme</h3>
+      <div class="recognize callout"><span class="label">Cómo reconocerla</span>La consigna dice que todos los valores dentro de $[a,b]$ son igualmente plausibles o que $X$ está “uniformemente distribuida”.</div>
+      <div class="formula-box">$$X\sim U(a,b),\qquad f_X(x)=\frac1{b-a}I_{[a,b]}(x)$$</div>
+      <div class="formula-box">$$F_X(x)=\frac{x-a}{b-a}\quad (a\le x\le b)$$</div>
+      <div class="formula-box">$$E[X]=\frac{a+b}{2},\qquad V(X)=\frac{(b-a)^2}{12}$$</div>
+      <div class="source-note">El resumen fuente incluye la teoría de Uniforme, pero no conserva un ejemplo resuelto específico.</div>
+    </section>
+
+    

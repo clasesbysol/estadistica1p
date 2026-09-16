@@ -1,45 +1,32 @@
 <section class="hero" id="inicio">
-<div class="hero-top">
-<div>
-<div class="kicker">Estadística Aplicada · Primer parcial</div>
-<h1>Guía de parciales por tipos de ejercicio</h1>
-<p>Acá están reunidos los patrones que aparecen en los parciales del PDF: cómo reconocer cada consigna, qué teoría necesitás, qué procedimiento seguir, qué errores evitar y un ejercicio real resuelto para cada tipo.</p>
-</div>
-</div>
-<div class="hero-badges">
-<span class="badge">2018 → 2025</span>
-<span class="badge">17 tipos detectados</span>
-<span class="badge">38 ejercicios principales clasificados</span>
-<span class="badge">Fórmulas + R + resoluciones</span>
-</div>
-<div class="quick-grid">
-<div class="quick"><b>17</b><span>tipos de consigna</span></div>
-<div class="quick"><b>38</b><span>ejercicios principales</span></div>
-<div class="quick"><b>8</b><span>instancias de examen / recuperatorio</span></div>
-<div class="quick"><b>1</b><span>guía para reconocer qué hacer</span></div>
-</div>
+<div class="hero-top"><div><div class="kicker">Estadística Aplicada · Primer parcial</div><h1>Tipos de ejercicios</h1><p>Reconocé la consigna, elegí el modelo y resolvé paso a paso.</p></div></div>
+<div class="hero-badges"><span class="badge">2018 → 2025</span><span class="badge">17 tipos detectados</span><span class="badge">38 ejercicios principales clasificados</span><span class="badge">Fórmulas + R + resoluciones</span></div>
+<div class="quick-grid"><div class="quick"><b>17</b><span>tipos de consigna</span></div><div class="quick"><b>38</b><span>ejercicios principales</span></div><div class="quick"><b>8</b><span>instancias de examen / recuperatorio</span></div><div class="quick"><b>1</b><span>resumen integral de parcial</span></div></div>
 </section>
 <section class="map-section" id="mapa">
 <h2>Mapa general de tipos</h2>
-<div class="note"><b>Cómo se contaron las apariciones:</b> las grillas de respuestas de 2023 y los Tema 1/Tema 2 que repiten exactamente las mismas consignas no se cuentan como ejercicios nuevos. Las frecuencias son aproximadas porque un mismo ejercicio puede combinar más de un tipo.</div>
-<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Patrón de ejercicio</th><th>Presencia en el PDF</th></tr></thead><tbody><tr><td>1</td><td><a href="#tipo-1">Conteo clásico, espacio muestral y secuencias equiprobables</a></td><td>≈ 4 apariciones</td></tr><tr><td>2</td><td><a href="#tipo-2">Muestreo sin reposición e Hipergeométrica</a></td><td>≈ 5 apariciones</td></tr><tr><td>3</td><td><a href="#tipo-3">Álgebra de eventos, complementos e independencia</a></td><td>≈ 3 apariciones</td></tr><tr><td>4</td><td><a href="#tipo-4">Probabilidad total y Teorema de Bayes</a></td><td>≈ 4 apariciones</td></tr><tr><td>5</td><td><a href="#tipo-5">Variable discreta dada por tabla: normalización, eventos, esperanza y varianza</a></td><td>≈ 2 apariciones</td></tr><tr><td>6</td><td><a href="#tipo-6">Juegos de azar, ganancia neta, esperanza y juego justo</a></td><td>≈ 3 apariciones</td></tr><tr><td>7</td><td><a href="#tipo-7">Distribución conjunta, marginales e independencia de variables</a></td><td>≈ 1 aparición</td></tr><tr><td>8</td><td><a href="#tipo-8">Densidad continua construida: normalizar, hallar F(x) y calcular intervalos</a></td><td>≈ 6 apariciones</td></tr><tr><td>9</td><td><a href="#tipo-9">Probabilidad directa con Uniforme, Normal o Exponencial</a></td><td>≈ 6 apariciones</td></tr><tr><td>10</td><td><a href="#tipo-10">Cuantiles, percentiles y puntos de corte</a></td><td>≈ 7 apariciones</td></tr><tr><td>11</td><td><a href="#tipo-11">Poisson: conteos, colas, condicionales y suma de procesos</a></td><td>≈ 3 apariciones</td></tr><tr><td>12</td><td><a href="#tipo-12">Binomial: contar éxitos en una cantidad fija de ensayos</a></td><td>≈ 9 apariciones</td></tr><tr><td>13</td><td><a href="#tipo-13">Geométrica: repetir hasta el primer éxito</a></td><td>≈ 4 apariciones</td></tr><tr><td>14</td><td><a href="#tipo-14">Binomial negativa: hasta el r-ésimo éxito</a></td><td>≈ 2 apariciones</td></tr><tr><td>15</td><td><a href="#tipo-15">Teorema Central del Límite: promedio o suma de muchas observaciones</a></td><td>≈ 5 apariciones</td></tr><tr><td>16</td><td><a href="#tipo-16">Estimación puntual: método de los momentos e insesgamiento</a></td><td>≈ 1 aparición</td></tr><tr><td>17</td><td><a href="#tipo-17">Lectura de histogramas: centro, dispersión, porcentajes y atípicos</a></td><td>≈ 1 aparición</td></tr></tbody></table></div>
-<div class="subhead">Traducciones que aparecen todo el tiempo</div>
-<div class="lang-grid">
-<div class="lang"><b>“a lo sumo k”</b><br/>\(X\le k\)</div>
-<div class="lang"><b>“por lo menos k”</b><br/>\(X\ge k\)</div>
-<div class="lang"><b>“más de k”</b><br/>\(X&gt;k\)</div>
-<div class="lang"><b>“menos de k”</b><br/>\(X&lt;k\)</div>
-<div class="lang"><b>“sabiendo que”</b><br/>probabilidad condicional</div>
-<div class="lang"><b>“hasta el primero”</b><br/>Geométrica</div>
-<div class="lang"><b>“hasta el tercero / r-ésimo”</b><br/>Binomial negativa</div>
-<div class="lang"><b>“aproximadamente el promedio”</b><br/>TCL</div>
-</div>
-<div class="subhead">R: qué devuelve cada comando</div>
-<div class="table-wrap"><table><thead><tr><th>Comando</th><th>Qué devuelve</th><th>Cuidado</th></tr></thead><tbody>
-<tr><td><code>dbinom / dhyper / dpois</code></td><td>Probabilidad puntual</td><td>Úsalos para “exactamente”.</td></tr>
-<tr><td><code>pbinom / phyper / ppois</code></td><td>Probabilidad acumulada \(P(X\le x)\)</td><td>Para cola superior suele hacer falta complemento.</td></tr>
-<tr><td><code>pnorm / punif / pexp</code></td><td>Acumulada \(F(x)\)</td><td>En Normal, <code>sd</code> es desvío estándar.</td></tr>
-<tr><td><code>dgeom / pgeom</code></td><td>Fracasos antes del primer éxito</td><td>Si el primer éxito ocurre en el ensayo n, usar n−1.</td></tr>
-<tr><td><code>dnbinom / pnbinom</code></td><td>Fracasos antes del r-ésimo éxito</td><td>Si el r-ésimo éxito ocurre en n, usar n−r.</td></tr>
+<div class="note"><b>Conteo de apariciones:</b> las grillas de respuestas de 2023 y los Tema 1/Tema 2 que repiten exactamente las mismas consignas no se cuentan como ejercicios nuevos. Un mismo ejercicio puede combinar más de un tipo.</div>
+<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Patrón de ejercicio</th><th>Presencia en el PDF</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="#tipo-1">Conteo clásico, espacio muestral y secuencias equiprobables</a></td><td>≈ 4 apariciones</td></tr>
+<tr><td>2</td><td><a href="#tipo-2">Muestreo sin reposición: Hipergeométrica o probabilidad secuencial</a></td><td>≈ 5 apariciones</td></tr>
+<tr><td>3</td><td><a href="#tipo-3">Álgebra de eventos, complementos e independencia</a></td><td>≈ 3 apariciones</td></tr>
+<tr><td>4</td><td><a href="#tipo-4">Probabilidad total y Teorema de Bayes</a></td><td>≈ 4 apariciones</td></tr>
+<tr><td>5</td><td><a href="#tipo-5">Variable discreta dada por tabla: normalización, eventos, esperanza y varianza</a></td><td>≈ 2 apariciones</td></tr>
+<tr><td>6</td><td><a href="#tipo-6">Juegos de azar, ganancia neta, esperanza y juego justo</a></td><td>≈ 3 apariciones</td></tr>
+<tr><td>7</td><td><a href="#tipo-7">Distribución conjunta, marginales e independencia de variables</a></td><td>≈ 1 aparición</td></tr>
+<tr><td>8</td><td><a href="#tipo-8">Densidad continua construida: normalizar, hallar F(x) y calcular intervalos</a></td><td>≈ 6 apariciones</td></tr>
+<tr><td>9</td><td><a href="#tipo-9">Probabilidad directa con Uniforme, Normal o Exponencial</a></td><td>≈ 6 apariciones</td></tr>
+<tr><td>10</td><td><a href="#tipo-10">Cuantiles, percentiles y puntos de corte</a></td><td>≈ 7 apariciones</td></tr>
+<tr><td>11</td><td><a href="#tipo-11">Poisson: conteos, colas, condicionales y suma de procesos</a></td><td>≈ 3 apariciones</td></tr>
+<tr><td>12</td><td><a href="#tipo-12">Binomial: contar éxitos en una cantidad fija de ensayos</a></td><td>≈ 9 apariciones</td></tr>
+<tr><td>13</td><td><a href="#tipo-13">Geométrica: repetir hasta el primer éxito</a></td><td>≈ 4 apariciones</td></tr>
+<tr><td>14</td><td><a href="#tipo-14">Binomial negativa: hasta el r-ésimo éxito</a></td><td>≈ 2 apariciones</td></tr>
+<tr><td>15</td><td><a href="#tipo-15">Teorema Central del Límite: promedio o suma de muchas observaciones</a></td><td>≈ 5 apariciones</td></tr>
+<tr><td>16</td><td><a href="#tipo-16">Estimación puntual: método de los momentos e insesgamiento</a></td><td>≈ 1 aparición</td></tr>
+<tr><td>17</td><td><a href="#tipo-17">Lectura de histogramas: centro, dispersión, porcentajes y atípicos</a></td><td>≈ 1 aparición</td></tr>
 </tbody></table></div>
+<div class="subhead">Traducciones que aparecen todo el tiempo</div>
+<div class="lang-grid"><div class="lang"><b>“a lo sumo k”</b><br/>\(X\le k\)</div><div class="lang"><b>“por lo menos k”</b><br/>\(X\ge k\)</div><div class="lang"><b>“más de k”</b><br/>\(X&gt;k\)</div><div class="lang"><b>“menos de k”</b><br/>\(X&lt;k\)</div><div class="lang"><b>“sabiendo que”</b><br/>probabilidad condicional</div><div class="lang"><b>“hasta el primero”</b><br/>Geométrica</div><div class="lang"><b>“hasta el tercero / r-ésimo”</b><br/>Binomial negativa</div><div class="lang"><b>“aproximadamente el promedio”</b><br/>TCL</div></div>
+<div class="subhead">R: qué devuelve cada comando</div>
+<div class="table-wrap"><table><thead><tr><th>Comando</th><th>Qué devuelve</th><th>Cuidado</th></tr></thead><tbody><tr><td><code>dbinom / dhyper / dpois</code></td><td>Probabilidad puntual</td><td>Úsalos para “exactamente”.</td></tr><tr><td><code>pbinom / phyper / ppois</code></td><td>Probabilidad acumulada \(P(X\le x)\)</td><td>Para cola superior suele hacer falta complemento.</td></tr><tr><td><code>pnorm / punif / pexp</code></td><td>Acumulada \(F(x)\)</td><td>En Normal, <code>sd</code> es desvío estándar.</td></tr><tr><td><code>dgeom / pgeom</code></td><td>Fracasos antes del primer éxito</td><td>Si el primer éxito ocurre en el ensayo n, usar n−1.</td></tr><tr><td><code>dnbinom / pnbinom</code></td><td>Fracasos antes del r-ésimo éxito</td><td>Si el r-ésimo éxito ocurre en n, usar n−r.</td></tr></tbody></table></div>
 </section>
